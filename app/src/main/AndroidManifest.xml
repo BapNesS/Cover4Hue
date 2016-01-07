@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.baptistecarlier.android.cover4hue" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+
+    <supports-screens android:smallScreens="true"
+                      android:normalScreens="true"
+                      android:largeScreens="true"
+                      android:xlargeScreens="true"
+                      android:anyDensity="true" />
+
+    <application
+        android:name="CoverHueApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name=".receiver.AndroidMusicIntentReceiver">
+            <intent-filter>
+                <action android:name="com.android.music.playstatechanged" />
+                <action android:name="com.android.music.playbackcomplete" />
+                <action android:name="com.android.music.metachanged" />
+                <action android:name="com.android.music.queuechanged" />
+                <action android:name="com.htc.music.metachanged" />
+                <action android:name="com.htc.music.playbackcomplete" />
+                <action android:name="com.htc.music.playstatechanged" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
