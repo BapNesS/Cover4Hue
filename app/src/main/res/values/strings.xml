@@ -3,4 +3,11 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="connecting">Connecting…</string>
+    <string name="title_error">Error</string>
+    <string name="txt_select_smartbridge">bridge</string>
+    <string name="search_progress">Recherche en cours</string>
+    <string name="btn_ok">OK</string>
+    <string name="press_pushlink_button">Press pushlink</string>
+    <string name="txt_pushlink">Push the button</string>
 </resources>

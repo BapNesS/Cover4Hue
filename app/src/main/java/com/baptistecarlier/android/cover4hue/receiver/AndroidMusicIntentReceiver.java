@@ -14,7 +14,7 @@ public class AndroidMusicIntentReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Session s = LastFMApplication.getInstance().session;
+	/*	Session s = LastFMApplication.getInstance().session;
 		if (s != null && s.getKey().length() > 0 && PreferenceManager.getDefaultSharedPreferences(LastFMApplication.getInstance()).getBoolean("scrobble", true)) {
 			if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 				if (ScrobblerQueueDao.getInstance().getQueueSize()<1) {
@@ -66,6 +66,7 @@ public class AndroidMusicIntentReceiver extends BroadcastReceiver {
 				e.printStackTrace();
 			}
 		}
+		*/
 	}
 
 }

@@ -29,6 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.MyApplicationActivity"
+            android:label="Cover4Hue" >
+        </activity>
+        <activity
+            android:name=".hue.PHPushlinkActivity"
+            android:label="@string/app_name" >
+        </activity>
         <receiver
             android:name=".receiver.AndroidMusicIntentReceiver">
             <intent-filter>
