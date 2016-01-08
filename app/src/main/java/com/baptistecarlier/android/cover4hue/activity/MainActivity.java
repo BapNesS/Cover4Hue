@@ -1,8 +1,12 @@
 package com.baptistecarlier.android.cover4hue.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +16,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.baptistecarlier.android.cover4hue.hue.AccessPointListAdapter;
 import com.baptistecarlier.android.cover4hue.hue.HueSharedPreferences;
@@ -38,7 +44,9 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	public static final String PREFS = "Cover4HuePrefs";
 	public static final String APPNAME = "Cover4Hue";
 
-	public Button redBtn, blueBtn;
+	public Button redBtn;
+	public ImageView imageView;
+	public TextView textView;
 
 	// Hue Stuff
 	private PHHueSDK phHueSDK;
@@ -50,9 +58,16 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bridgelistlinear);
 
-		/*
+
+		//initBridge();
+
+		initMusic();
+	}
+
+	private void initMusic() {
+		setContentView(R.layout.activity_main);
+
 		redBtn = (Button) findViewById(R.id.redBtn);
 		redBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -60,20 +75,55 @@ public class MainActivity extends Activity implements OnItemClickListener {
 				changeColor(Color.RED);
 			}
 		});
-		blueBtn = (Button) findViewById(R.id.blueBtn);
-		blueBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				changeColor(Color.BLUE);
-			}
-		});
-		*/
+		imageView = (ImageView) findViewById(R.id.imageView);
+		textView = (TextView) findViewById(R.id.textView);
 
-		initBridge();
 
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("com.android.music.metachanged");
+		intentFilter.addAction("com.android.music.playstatechanged");
+		intentFilter.addAction("com.android.music.playbackcomplete");
+		intentFilter.addAction("com.android.music.queuechanged");
+
+		registerReceiver(mReceiver, intentFilter);
 	}
 
+	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			String action = intent.getAction();
+			String cmd = intent.getStringExtra("command");
+			Log.d(TAG+" / mIntentReceiver.onReceive ", action + " / " + cmd);
+			String artist = intent.getStringExtra("artist");
+			String album = intent.getStringExtra("album");
+			String track = intent.getStringExtra("track");
+//			String albumId = intent.getStringExtra(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+
+			textView.setText(artist + " - " + track);
+
+			Log.d(TAG, "id : "+(intent.getStringExtra("id") == null ? "null!" : intent.getStringExtra("id")));
+			Log.d(TAG, "id : "+(intent.getStringExtra("_id") == null ? "null!" : intent.getStringExtra("_id")));
+
+			/*
+				Et comme j'ai pas mon cable USB-C, je vais arrêter là pour ce weekend.
+				Quelques sources :
+				http://stackoverflow.com/questions/1954434/cover-art-on-android
+				http://stackoverflow.com/questions/15740359/how-to-get-thumbnails-of-audio-files-by-using-mediastore
+				http://stackoverflow.com/questions/14136899/how-to-display-thumbnail-of-song-in-android
+				http://www.programcreek.com/java-api-examples/index.php?api=android.media.MediaMetadataRetriever
+				http://stackoverflow.com/questions/30876838/android-how-to-retrieve-album-art-for-each-album-using-album-id
+				http://stackoverflow.com/questions/21996228/mediastore-audio-albums-album-id-invalid-column
+
+			 */
+
+		}
+	};
+
+
 	private void initBridge() {
+		setContentView(R.layout.bridgelistlinear);
 		// Gets an instance of the Hue SDK.
 		phHueSDK = PHHueSDK.create();
 
